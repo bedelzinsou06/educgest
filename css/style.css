@@ -1,0 +1,310 @@
+/* ---------- 1. LES COULEURS ---------- */
+:root {
+  --principale: #166534;
+  --principale-fonce: #14532d;
+  --principale-clair: #dcfce7;
+  --or: #f5b82e;
+  --or-fonce: #e0a416;
+  --fond: #e6ede4;
+  --carte: #ffffff;
+  --texte: #1f2937;
+  --texte-doux: #4b5563;
+  --bordure: #b8c4b5;
+  --bordure-carte: #cbd6c8;
+  --erreur: #dc2626;
+  --erreur-fond: #fee2e2;
+}
+
+/* ---------- 2. BASE ---------- */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fond);
+  color: var(--texte);
+  line-height: 1.4;
+}
+
+main { max-width: 900px; margin: 0 auto; padding: 12px; }
+
+section {
+  background: var(--carte);
+  border: 1px solid var(--bordure-carte);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+section h2 { margin: 0 0 12px 0; font-size: 1.1rem; color: var(--principale-fonce); }
+
+/* L'en-tête de l'écran d'une classe */
+.entete-classe {
+  background: var(--principale);
+  color: #ffffff;
+  padding: 14px;
+  text-align: center;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+.entete-classe h1 { margin: 0; font-size: 1.4rem; }
+
+/* Petit texte d'aide */
+.aide { font-size: 0.9rem; color: var(--texte-doux); margin: 0 0 12px 0; }
+
+/* ---------- 3. CHAMPS ET BOUTONS ---------- */
+label { display: block; margin-bottom: 12px; font-size: 0.95rem; }
+
+input, select, textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+}
+textarea { resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--principale); border-color: var(--principale); }
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--principale);
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+button:hover { background: var(--principale-fonce); }
+button:active { transform: scale(0.97); }
+
+.btn-secondaire { background: #4b5563; }
+.btn-secondaire:hover { background: #1f2937; }
+
+.btn-danger { background: var(--erreur); padding: 6px 10px; font-size: 0.85rem; }
+.btn-danger:hover { background: #991b1b; }
+
+.btn-petit { padding: 6px 10px; font-size: 0.85rem; }
+
+/* Le bouton doré (appel à l'action) */
+.btn-or {
+  background: var(--or);
+  color: #3b2a00;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 12px 22px;
+  border-radius: 999px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+.btn-or:hover { background: var(--or-fonce); }
+
+.ligne-ajout { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.ligne-ajout input { margin-top: 0; flex: 1; min-width: 140px; }
+.ligne-ajout select { margin-top: 0; width: auto; flex: none; }
+
+.grille-matiere { display: grid; gap: 8px; margin-bottom: 12px; }
+.grille-matiere input { margin-top: 0; }
+.grille-matiere label { margin-bottom: 0; }
+
+/* ---------- 4. LA BANNIÈRE D'ACCUEIL ---------- */
+.banniere {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  color: #ffffff;
+  padding: 32px 20px;
+  background: linear-gradient(135deg, #14532d 0%, #166534 55%, #15803d 100%);
+  border: none;
+  animation: apparition 0.5s ease both;
+}
+
+/* Deux cercles décoratifs dorés */
+.banniere::before,
+.banniere::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(245, 184, 46, 0.22);
+}
+.banniere::before { width: 160px; height: 160px; top: -60px; right: -40px; }
+.banniere::after { width: 110px; height: 110px; bottom: -45px; left: -30px; }
+
+.banniere > * { position: relative; z-index: 1; }
+.banniere h1 { margin: 0 0 8px 0; font-size: 2rem; }
+.accroche { margin: 0 0 20px 0; font-size: 1.05rem; opacity: 0.95; }
+
+/* Bannière compacte : quand l'enseignant a déjà des classes */
+.banniere.compacte { padding: 14px 16px; }
+.banniere.compacte h1 { margin: 0; font-size: 1.4rem; }
+.banniere.compacte .accroche { display: none; }
+.banniere.compacte .btn-or { margin-top: 10px; padding: 8px 16px; font-size: 0.9rem; }
+
+/* ---------- 5. LES TROIS ATOUTS ---------- */
+.avantages { display: grid; gap: 12px; margin-bottom: 16px; }
+
+.avantage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  background: var(--carte);
+  border: 1px solid var(--bordure-carte);
+  border-radius: 14px;
+  padding: 16px;
+  border-top: 4px solid var(--or);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  font-size: 0.9rem;
+  color: var(--texte-doux);
+  animation: apparition 0.5s ease both;
+}
+.avantage:nth-child(2) { animation-delay: 0.1s; }
+.avantage:nth-child(3) { animation-delay: 0.2s; }
+.avantage strong { color: var(--principale-fonce); font-size: 1rem; }
+.avantage-icone { font-size: 2rem; }
+
+/* ---------- 6. LES CARTES DE CLASSES ---------- */
+.grille-classes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.carte-classe {
+  display: flex;
+  align-items: center;
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: apparition 0.4s ease both;
+}
+.carte-classe:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+.carte-principale {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  text-align: left;
+  background: transparent;
+  color: var(--texte);
+  border-radius: 0;
+  min-width: 0;
+}
+.carte-principale:hover { background: #f0fdf4; }
+
+.pastille {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+.pastille.c0 { background: #166534; }
+.pastille.c1 { background: #f5b82e; color: #3b2a00; }
+.pastille.c2 { background: #1d4ed8; }
+.pastille.c3 { background: #c2410c; }
+
+.carte-infos { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.carte-infos strong { font-size: 1.05rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.carte-detail { font-size: 0.85rem; color: var(--texte-doux); }
+.carte-moyenne { font-size: 0.85rem; color: var(--principale); font-weight: bold; }
+
+.carte-supprimer { flex: none; margin-right: 12px; }
+
+/* ---------- 7. L'ÉTAT VIDE ---------- */
+#etat-vide { text-align: center; padding: 16px 8px; }
+.etat-vide-icone { display: block; font-size: 3rem; margin-bottom: 4px; }
+#etat-vide p { color: var(--texte-doux); margin: 0; }
+
+/* ---------- 8. LISTE DES MATIÈRES ---------- */
+#liste-matieres { list-style: none; margin: 0; padding: 0; }
+#liste-matieres li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--bordure);
+}
+
+/* ---------- 9. LES APPRÉCIATIONS ---------- */
+.bloc-appreciation {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bordure);
+}
+.bloc-appreciation textarea { margin-top: 0; }
+
+/* ---------- 10. LES ONGLETS DES PÉRIODES ---------- */
+.onglets { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px 0; }
+.onglet {
+  background: var(--carte);
+  color: var(--principale-fonce);
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+}
+.onglet:hover { background: #f0fdf4; }
+.onglet.actif { background: var(--principale); color: #ffffff; border-color: var(--principale); font-weight: bold; }
+.onglet.actif:hover { background: var(--principale-fonce); }
+
+/* ---------- 11. LES TABLEAUX ---------- */
+.zone-tableau { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 8px; border: 1px solid var(--bordure); text-align: left; white-space: nowrap; }
+th { background: var(--principale-clair); color: var(--principale-fonce); font-size: 0.85rem; }
+
+#tableau-notes input { width: 70px; margin: 0; padding: 6px; }
+input.invalide { border-color: var(--erreur); background: var(--erreur-fond); }
+
+#zone-stats { margin-bottom: 12px; }
+#zone-stats p { margin: 4px 0; }
+
+/* ---------- 12. ANIMATION ---------- */
+@keyframes apparition {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pour les personnes qui préfèrent ne pas avoir d'animations */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ---------- 13. GRANDS ÉCRANS ---------- */
+@media (min-width: 700px) {
+  .banniere { padding: 44px 24px; }
+  .banniere h1 { font-size: 2.6rem; }
+  .accroche { font-size: 1.2rem; }
+  .banniere.compacte { padding: 18px 24px; }
+  .banniere.compacte h1 { font-size: 1.8rem; }
+  .avantages { grid-template-columns: repeat(3, 1fr); }
+  .grille-classes { grid-template-columns: 1fr 1fr; }
+  section { padding: 20px; }
+  .grille-matiere { grid-template-columns: 1fr 1fr; }
+  .grille-matiere button { grid-column: 1 / -1; }
+}

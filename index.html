@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moyennes</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <main>
+
+    <!-- ÉCRAN 1 : L'ACCUEIL -->
+    <div id="ecran-accueil">
+
+      <!-- La bannière (devient compacte quand il y a des classes) -->
+      <section class="banniere" id="banniere">
+        <h1>📚 Moyennes</h1>
+        <p class="accroche">Tes moyennes et ton classement en 2 minutes, sans calculatrice.</p>
+        <button type="button" id="btn-hero-creer" class="btn-or">➕ Créer une classe</button>
+      </section>
+
+      <!-- Les trois atouts (visibles seulement quand il n'y a aucune classe) -->
+      <div class="avantages" id="avantages">
+        <div class="avantage">
+          <span class="avantage-icone">📊</span>
+          <strong>Moyennes avec coefficients</strong>
+          <span>Interrogations et devoirs pris en compte.</span>
+        </div>
+        <div class="avantage">
+          <span class="avantage-icone">🏆</span>
+          <strong>Classement automatique</strong>
+          <span>Rang, mention et décision pour chaque élève.</span>
+        </div>
+        <div class="avantage">
+          <span class="avantage-icone">💾</span>
+          <strong>Sauvegarde de secours</strong>
+          <span>Exporte tes classes et retrouve-les à tout moment.</span>
+        </div>
+      </div>
+
+      <!-- Les classes -->
+      <section>
+        <h2>🎓 Mes classes</h2>
+
+        <div id="etat-vide" hidden>
+          <span class="etat-vide-icone">🎓</span>
+          <p>Bienvenue ! Tu n'as pas encore de classe.<br>Crée la première avec le bouton doré ou le formulaire ci-dessous.</p>
+        </div>
+
+        <ul id="liste-classes" class="grille-classes"></ul>
+      </section>
+
+      <!-- Créer une classe -->
+      <section id="bloc-nouvelle-classe">
+        <h2>➕ Nouvelle classe</h2>
+        <div class="ligne-ajout">
+          <input type="text" id="input-nouvelle-classe" placeholder="Ex : 3ème A">
+          <select id="select-type-creation" aria-label="Découpage de l'année">
+            <option value="trimestres">3 trimestres</option>
+            <option value="semestres">2 semestres</option>
+          </select>
+          <button type="button" id="btn-creer-classe">Créer</button>
+        </div>
+      </section>
+
+      <!-- La sauvegarde -->
+      <section>
+        <h2>💾 Sauvegarde</h2>
+        <p>Exporte un fichier de sauvegarde pour ne jamais perdre tes classes, ou importe-en un pour les récupérer.</p>
+        <div class="ligne-ajout">
+          <button type="button" id="btn-exporter">⬇️ Exporter une sauvegarde</button>
+          <button type="button" id="btn-importer" class="btn-secondaire">⬆️ Importer une sauvegarde</button>
+        </div>
+        <input type="file" id="input-import" accept=".json,application/json" hidden>
+        <p id="message-sauvegarde" role="status"></p>
+      </section>
+
+    </div>
+
+    <!-- ÉCRAN 2 : UNE CLASSE OUVERTE -->
+    <div id="ecran-classe" hidden>
+
+      <header class="entete-classe">
+        <h1>📚 Moyennes</h1>
+      </header>
+
+      <!-- Les réglages de la classe (communs à toute l'année) -->
+      <section>
+        <button type="button" id="btn-retour">← Retour aux classes</button>
+        <h2 id="titre-classe"></h2>
+        <label>Nom de la classe
+          <input type="text" id="input-nom-classe">
+        </label>
+        <label>Établissement
+          <input type="text" id="input-etablissement" maxlength="80" placeholder="Nom de l'établissement">
+        </label>
+        <label>Année scolaire
+          <input type="text" id="input-annee" maxlength="80" placeholder="Ex : 2026-2027">
+        </label>
+        <label>Découpage de l'année
+          <select id="select-type-periodes">
+            <option value="trimestres">3 trimestres</option>
+            <option value="semestres">2 semestres</option>
+          </select>
+        </label>
+        <p id="message-periodes" role="status"></p>
+        <label>Moyenne minimale pour être admis
+          <input type="number" id="input-seuil" min="0" max="20" step="0.5">
+        </label>
+        <label>Appréciations des bulletins
+          <select id="select-mode-appreciation">
+            <option value="auto">Automatiques (modifiables élève par élève)</option>
+            <option value="manuel">Manuelles (je les écris moi-même)</option>
+          </select>
+        </label>
+      </section>
+
+      <!-- Les matières (communes à toute l'année) -->
+      <section>
+        <h2>Les matières</h2>
+        <div class="grille-matiere">
+          <input type="text" id="input-nom-matiere" placeholder="Nom de la matière">
+          <input type="number" id="input-coef-matiere" placeholder="Coefficient" min="1" step="1">
+          <label>Nombre d'interrogations
+            <select id="select-interros">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+            </select>
+          </label>
+          <label>Nombre de devoirs
+            <select id="select-devoirs">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+            </select>
+          </label>
+          <button type="button" id="btn-ajouter-matiere">Ajouter la matière</button>
+        </div>
+        <ul id="liste-matieres"></ul>
+      </section>
+
+      <!-- Les onglets : une période par onglet, puis l'année -->
+      <nav id="onglets" class="onglets" aria-label="Périodes"></nav>
+
+      <!-- VUE D'UNE PÉRIODE -->
+      <div id="vue-periode">
+
+        <section>
+          <h2 id="titre-notes">Les élèves et les notes</h2>
+          <div class="ligne-ajout">
+            <input type="text" id="input-nom-eleve" placeholder="Nom de l'élève">
+            <button type="button" id="btn-ajouter-eleve">Ajouter</button>
+            <button type="button" id="btn-trier" class="btn-secondaire">Trier A à Z</button>
+          </div>
+          <div class="zone-tableau">
+            <table id="tableau-notes"></table>
+          </div>
+        </section>
+
+        <section>
+          <h2 id="titre-appreciations">Les appréciations</h2>
+          <p class="aide" id="aide-appreciation"></p>
+          <div id="liste-appreciations"></div>
+        </section>
+
+        <section>
+          <h2 id="titre-resultats">Les résultats</h2>
+          <div class="ligne-ajout">
+            <button type="button" id="btn-bulletins">🧾 Bulletins de tous les élèves (PDF)</button>
+            <button type="button" id="btn-export-pdf">📄 Récapitulatif PDF</button>
+            <button type="button" id="btn-export-excel" class="btn-secondaire">📊 Récapitulatif Excel</button>
+          </div>
+          <p id="message-export" role="status"></p>
+          <div id="zone-stats"></div>
+          <div class="zone-tableau">
+            <table id="tableau-classement"></table>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- VUE DE L'ANNÉE -->
+      <div id="vue-annee" hidden>
+        <section>
+          <h2>Les résultats de l'année</h2>
+          <p class="aide">La moyenne annuelle est la moyenne des moyennes générales de chaque période. Pour saisir des notes ou ajouter des élèves, ouvre une période.</p>
+          <div class="ligne-ajout">
+            <button type="button" id="btn-bulletins-annuels">🧾 Bulletins annuels (PDF)</button>
+            <button type="button" id="btn-recap-annuel-pdf">📄 Récapitulatif annuel PDF</button>
+            <button type="button" id="btn-recap-annuel-excel" class="btn-secondaire">📊 Récapitulatif annuel Excel</button>
+          </div>
+          <p id="message-annee" role="status"></p>
+          <div id="stats-annee"></div>
+          <div class="zone-tableau">
+            <table id="tableau-annee"></table>
+          </div>
+        </section>
+
+        <section>
+          <h2>Les appréciations de l'année</h2>
+          <p class="aide" id="aide-appreciation-annuelle"></p>
+          <div id="liste-appreciations-annuelles"></div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Bibliothèques PDF (dans le dossier lib) -->
+  <script src="lib/jspdf.umd.min.js"></script>
+  <script src="lib/jspdf.plugin.autotable.js"></script>
+
+  <!-- Le code de l'application, dans cet ordre -->
+  <script src="app.js"></script>
+  <script src="stockage.js"></script>
+  <script src="export.js"></script>
+  <script src="bulletin.js"></script>
+  <script src="interface.js"></script>
+</body>
+</html>
